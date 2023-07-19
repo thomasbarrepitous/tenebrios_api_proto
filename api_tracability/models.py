@@ -14,7 +14,9 @@ class Action(models.Model):
     column = models.CharField(
         max_length=2
     )
-    recolte_nb = models.IntegerField()
+    recolte_nb = models.CharField(
+        max_length=5
+    )
     # created_time = models.DateTimeField(auto_now_add=True)
     # uptime = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField()
