@@ -2,6 +2,7 @@ from django.db import models
 
 class Action(models.Model):
     class ActionType(models.TextChoices):
+        MISE_EN_CULTURE = 'CULT'
         NOURRISAGE_HUMIDE = 'NHUM'
         NOURRISAGE_SON = 'NSON'
         TAMISAGE = 'TAMI'
