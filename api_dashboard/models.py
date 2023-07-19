@@ -27,3 +27,5 @@ class CO2(models.Model):
     # uptime = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField()
     uptime = models.DateTimeField()
+
+

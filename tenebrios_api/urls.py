@@ -15,13 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from api_dashboard import views
+from api_dashboard import views as weather_views
+from api_tracability import views as tracability_views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'co2', views.C02ViewSet)
-router.register(r'humidity', views.HumidityViewSet)
-router.register(r'temperature', views.TemperatureViewSet)
+router.register(r'co2', weather_views.C02ViewSet)
+router.register(r'humidity', weather_views.HumidityViewSet)
+router.register(r'temperature', weather_views.TemperatureViewSet)
+router.register(r'tracability', tracability_views.ActionViewSet)
 
 
 urlpatterns = [
