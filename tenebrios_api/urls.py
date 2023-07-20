@@ -25,7 +25,6 @@ router.register(r'humidity', weather_views.HumidityViewSet)
 router.register(r'temperature', weather_views.TemperatureViewSet)
 router.register(r'tracability', tracability_views.ActionViewSet)
 
-
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls'))

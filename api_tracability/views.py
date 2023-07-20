@@ -1,7 +1,8 @@
-from rest_framework import viewsets
-from rest_framework import permissions
-from api_tracability.serializers import ActionSerializer
-from api_tracability.models import Action
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from api_tracability.serializers import ActionSerializer, ColumnSerializer
+from api_tracability.models import Action as TracabilityAction
+from rest_framework.decorators import action
 from  django_filters.rest_framework import DjangoFilterBackend
 
 
@@ -9,8 +10,14 @@ class ActionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Action.objects.all()
+    queryset = TracabilityAction.objects.all()
     serializer_class = ActionSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["action_type", "column", "recolte_nb", "created_time", "uptime"]
+    
+    @action(detail=False, methods=['get'])
+    def get_columns(self, request):
+        queryset = TracabilityAction.objects.order_by().values('column').distinct()
+        serializer = ColumnSerializer(queryset, many=True)
+        return Response(serializer.data)

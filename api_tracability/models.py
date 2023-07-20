@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Action(models.Model):
     class ActionType(models.TextChoices):
         MISE_EN_CULTURE = 'CULT'
@@ -22,4 +23,3 @@ class Action(models.Model):
     # uptime = models.DateTimeField(auto_now=True)
     created_time = models.DateTimeField()
     uptime = models.DateTimeField()
-

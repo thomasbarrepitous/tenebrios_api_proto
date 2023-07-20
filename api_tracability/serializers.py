@@ -6,3 +6,9 @@ class ActionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Action
         fields = ["action_type", "column", "recolte_nb", "created_time", "uptime"]
+
+
+class ColumnSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Action
+        fields = ["column"]
