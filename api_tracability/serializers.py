@@ -1,6 +1,6 @@
 from api_tracability.models import Action
 from rest_framework import serializers
-
+import django_filters.rest_framework
 
 class ActionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
