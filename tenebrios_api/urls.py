@@ -20,12 +20,15 @@ from api_tracability import views as tracability_views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+
 router.register(r'co2', weather_views.C02ViewSet)
 router.register(r'humidity', weather_views.HumidityViewSet)
 router.register(r'temperature', weather_views.TemperatureViewSet)
 router.register(r'tracability', tracability_views.ActionViewSet)
+router.register(r'actiondetails', tracability_views.ActionDetailViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    # path('tracability/actiondetails', tracability_views.ActionDetailViewSet)
 ]
