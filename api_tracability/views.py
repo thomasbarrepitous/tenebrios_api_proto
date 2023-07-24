@@ -11,7 +11,7 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
     serializer_class = ActionPolymorphicSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["column", "date",
+    filterset_fields = ['polymorphic_ctype', "column", "date",
                         "recolte_nb", "created_time", "uptime"]
 
     @decorator_action(detail=False, methods=['get'])

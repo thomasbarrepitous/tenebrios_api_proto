@@ -3,10 +3,10 @@ from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
 
-class ActionDetailSerializer(serializers.ModelSerializer):
+class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ['recolte_nb',"column", "date"]
+        fields = ['polymorphic_ctype', 'recolte_nb',"column", "date"]
 
 
 class MiseEnCultureSerializer(serializers.ModelSerializer):
