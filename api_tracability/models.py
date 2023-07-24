@@ -23,9 +23,9 @@ class NourrisageHumide(Action):
     given_quantity = models.IntegerField()
     marc_arrival_date = models.DateTimeField()
     anomaly = models.BooleanField()
-    anomaly_comment = models.TextField(default=None)
+    anomaly_comment = models.TextField(blank=True)
     is_imw100_weighted = models.BooleanField()
-    imw100_weight = models.IntegerField(default=None)
+    imw100_weight = models.IntegerField(blank=True)
 
 
 class NourrisageSon(Action):
