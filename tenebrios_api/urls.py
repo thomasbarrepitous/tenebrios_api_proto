@@ -19,14 +19,15 @@ from api_dashboard import views as weather_views
 from api_tracability import views as tracability_views
 from rest_framework import routers
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 
-router.register(r'co2', weather_views.C02ViewSet)
-router.register(r'humidity', weather_views.HumidityViewSet)
-router.register(r'temperature', weather_views.TemperatureViewSet)
-router.register(r'tracability', tracability_views.ActionDetailViewSet)
+router.register(r'/co2-captures', weather_views.C02ViewSet)
+router.register(r'/humidity-captures', weather_views.HumidityViewSet)
+router.register(r'/temperature-captures', weather_views.TemperatureViewSet)
+router.register(r'/actions', tracability_views.ActionDetailViewSet)
+
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api', include(router.urls)),
+    path('api-auth', include('rest_framework.urls')),
 ]

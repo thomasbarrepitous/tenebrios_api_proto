@@ -6,7 +6,7 @@ from rest_polymorphic.serializers import PolymorphicSerializer
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ['polymorphic_ctype', 'recolte_nb',"column", "date"]
+        fields = ['polymorphic_ctype', 'recolte_nb', "column", "date"]
 
 
 class MiseEnCultureSerializer(serializers.ModelSerializer):
@@ -58,3 +58,9 @@ class ColumnSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Action
         fields = ["column"]
+
+
+class HistoricBreedingsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Action
+        fields = ["recolte_nb", "column", 'date']
