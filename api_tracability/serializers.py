@@ -60,6 +60,12 @@ class ColumnSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["column"]
 
 
+class HarvestSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Action
+        fields = ["recolte_nb"]
+
+
 class HistoricBreedingsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Action
