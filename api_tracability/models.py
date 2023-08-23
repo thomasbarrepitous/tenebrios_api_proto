@@ -21,6 +21,7 @@ class MiseEnCulture(Action):
 
 class NourrisageHumide(Action):
     given_quantity = models.IntegerField()
+    given_quantity_bac = models.IntegerField()
     marc_arrival_date = models.DateTimeField()
     anomaly = models.BooleanField()
     anomaly_comment = models.TextField(blank=True)
@@ -30,6 +31,7 @@ class NourrisageHumide(Action):
 
 class NourrisageSon(Action):
     given_quantity = models.IntegerField()
+    given_quantity_bac = models.IntegerField()
     son_arrival_date = models.DateTimeField()
 
 

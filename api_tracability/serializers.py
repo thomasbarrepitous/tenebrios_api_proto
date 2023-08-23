@@ -18,7 +18,7 @@ class MiseEnCultureSerializer(serializers.ModelSerializer):
 class NourrisageHumideSerializer(serializers.ModelSerializer):
     class Meta:
         model = NourrisageHumide
-        fields = ['recolte_nb', "column", "date", "given_quantity", "marc_arrival_date",
+        fields = ['recolte_nb', "column", "date", "given_quantity", 'given_quantity_bac', "marc_arrival_date",
                   "anomaly", "anomaly_comment", "is_imw100_weighted", "imw100_weight"]
 
 
@@ -26,7 +26,7 @@ class NourrisageSonSerializer(serializers.ModelSerializer):
     class Meta:
         model = NourrisageSon
         fields = ['recolte_nb', "column", "date",
-                  "given_quantity", "son_arrival_date"]
+                  "given_quantity", 'given_quantity_bac', "son_arrival_date"]
 
 
 class TamisageSerializer(serializers.ModelSerializer):
