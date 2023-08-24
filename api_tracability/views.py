@@ -19,7 +19,7 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
         queryset = Action.objects.order_by().values('column').distinct()
         serializer = ColumnSerializer(queryset, many=True)
         return Response(serializer.data)
-    
+
     @decorator_action(detail=False, methods=['get'], url_path='recolte-nb')
     def get_harvest(self, request):
         queryset = Action.objects.order_by().values('recolte_nb').distinct()
@@ -31,6 +31,17 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
         queryset_mec = Action.objects.filter(
             polymorphic_ctype__in=[11, 14]).order_by('recolte_nb')
         serializer = HistoricBreedingsSerializer(queryset_mec, many=True)
+        return Response(serializer.data)
+
+    @decorator_action(detail=False, methods=['get'], url_path=r'recolte-nb/(?P<recolte_nb>[^/.]+)')
+    def get_recolte_info(self, request, recolte_nb=None):
+        try:
+            queryset = Action.objects.filter(
+                recolte_nb=recolte_nb)
+        except Action.DoesNotExist:
+            return Response({"error": "Recolte_nb not found."},
+                            status=status.HTTP_400_BAD_REQUEST)
+        serializer = HistoricBreedingsSerializer(queryset, many=True)
         return Response(serializer.data)
 
     @decorator_action(detail=False, methods=['get'], url_path=r'recolte-nb/(?P<recolte_nb>[^/.]+)/cycle')
