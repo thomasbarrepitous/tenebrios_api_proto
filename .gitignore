@@ -264,3 +264,5 @@ poetry.toml
 pyrightconfig.json
 
 auth.json
+
+.vscode/
