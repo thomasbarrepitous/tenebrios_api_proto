@@ -1,11 +1,28 @@
-from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from api_tracability.serializers import ColumnSerializer, ActionPolymorphicSerializer, HistoricBreedingsSerializer, HarvestSerializer
 from api_tracability.models import Action
 from rest_framework.decorators import action as decorator_action
 from django_filters.rest_framework import DjangoFilterBackend
-    
+from functools import wraps
+from django.db.models import QuerySet
+
+
+def paginateHarvest(func):
+    @wraps(func)
+    def inner(self, *args, **kwargs):
+        queryset = func(self, *args, **kwargs)
+        assert isinstance(queryset, (list, QuerySet)
+                          ), "apply_pagination expects a List or a QuerySet"
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = HarvestSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = HarvestSerializer(queryset, many=True)
+        return Response(serializer.data)
+    return inner
+
 
 class ActionDetailViewSet(viewsets.ModelViewSet):
     queryset = Action.objects.all()
@@ -21,17 +38,26 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
         serializer = ColumnSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @paginateHarvest
     @decorator_action(detail=False, methods=['get'], url_path='recolte-nb')
     def get_harvest(self, request):
+        column = request.query_params.getlist('column')
         queryset = Action.objects.order_by().values('recolte_nb').distinct()
-        serializer = HarvestSerializer(queryset, many=True)
-        return Response(serializer.data)
+        if column:
+            queryset = Action.objects.filter(
+                column__in=column).order_by().values('recolte_nb').distinct()
+        return queryset
 
     @decorator_action(detail=False, methods=['get'], url_path='historic-breedings')
     def get_historic_breedings(self, request):
-        queryset_mec = Action.objects.filter(
+        # Handle multiple column filtering
+        column = request.query_params.getlist('column')
+        queryset = Action.objects.filter(
             polymorphic_ctype__in=[11, 14]).order_by('recolte_nb')
-        serializer = HistoricBreedingsSerializer(queryset_mec, many=True)
+        if column:
+            queryset = Action.objects.filter(
+                polymorphic_ctype__in=[11, 14], column__in=column).order_by('recolte_nb')
+        serializer = HistoricBreedingsSerializer(queryset, many=True)
         return Response(serializer.data)
 
     @decorator_action(detail=False, methods=['get'], url_path=r'recolte-nb/(?P<recolte_nb>[^/.]+)')
