@@ -5,12 +5,6 @@ from api_tracability.serializers import ColumnSerializer, ActionPolymorphicSeria
 from api_tracability.models import Action
 from rest_framework.decorators import action as decorator_action
 from django_filters.rest_framework import DjangoFilterBackend
-
-
-class SmallResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
     
 
 class ActionDetailViewSet(viewsets.ModelViewSet):
@@ -18,7 +12,6 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
     serializer_class = ActionPolymorphicSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    pagination_class = SmallResultsSetPagination
     filterset_fields = ['polymorphic_ctype', "column", "date",
                         "recolte_nb", "created_time", "uptime"]
 
