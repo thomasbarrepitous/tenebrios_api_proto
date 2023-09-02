@@ -66,7 +66,7 @@ class HarvestSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["recolte_nb"]
 
 
-class HistoricBreedingsSerializer(serializers.HyperlinkedModelSerializer):
+class HistoricBreedingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ["recolte_nb", "column", 'date']
+        fields = ["recolte_nb", "column", 'date', 'polymorphic_ctype']
