@@ -1,3 +1,4 @@
+from django.utils.formats import date_format
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from api_tracability.serializers import (
@@ -12,6 +13,7 @@ from rest_framework.decorators import action as decorator_action
 from django_filters.rest_framework import DjangoFilterBackend
 from functools import wraps
 from django.db.models import QuerySet
+from datetime import datetime
 
 
 def paginateHarvest(func):
@@ -45,6 +47,27 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
         "created_time",
         "uptime",
     ]
+
+    def generate_recolte_nb(self, column, date):
+        latest_action = Action.objects.filter(column=column).order_by("-date").first()
+        if latest_action is None or latest_action.polymorphic_ctype == 14:
+            date = datetime.strptime(date, "%Y-%m-%d")
+            return column + date_format(date, "md")
+        return latest_action.recolte_nb
+
+    def create(self, request, *args, **kwargs):
+        # If lastest action is a 'recolte' we create a new one.
+        recolte_nb = self.generate_recolte_nb(
+            request.data.get("column"), request.data.get("date")
+        )
+        input_data = request.data.dict() | {"recolte_nb": recolte_nb}
+        serializer = self.get_serializer(data=input_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     @decorator_action(detail=False, methods=["get"], url_path="columns")
     def get_columns(self, request):

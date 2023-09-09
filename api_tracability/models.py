@@ -3,17 +3,12 @@ from polymorphic.models import PolymorphicModel
 
 
 class Action(PolymorphicModel):
-    recolte_nb = models.CharField(
-        max_length=5,
-        default=None
-    )
-    column = models.CharField(
-        max_length=2
-    )
+    recolte_nb = models.CharField(max_length=6, default=None)
+    column = models.CharField(max_length=2)
     date = models.DateTimeField()
     created_time = models.DateTimeField(auto_now_add=True)
     uptime = models.DateTimeField(auto_now=True)
-    
+
 
 class MiseEnCulture(Action):
     pass
@@ -24,9 +19,9 @@ class NourrisageHumide(Action):
     given_quantity_bac = models.IntegerField()
     marc_arrival_date = models.DateTimeField()
     anomaly = models.BooleanField()
-    anomaly_comment = models.TextField(blank=True)
+    anomaly_comment = models.TextField(blank=True, null=True)
     is_imw100_weighted = models.BooleanField()
-    imw100_weight = models.IntegerField(blank=True)
+    imw100_weight = models.IntegerField(blank=True, null=True)
 
 
 class NourrisageSon(Action):
@@ -41,5 +36,3 @@ class Tamisage(Action):
 
 class Recolte(Action):
     harvested_quantity = models.IntegerField()
-
-    
