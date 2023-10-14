@@ -13,19 +13,20 @@ from rest_polymorphic.serializers import PolymorphicSerializer
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ["polymorphic_ctype", "recolte_nb", "column", "date"]
+        fields = ["id", "polymorphic_ctype", "recolte_nb", "column", "date"]
 
 
 class MiseEnCultureSerializer(serializers.ModelSerializer):
     class Meta:
         model = MiseEnCulture
-        fields = ["recolte_nb", "column", "date"]
+        fields = ["id", "recolte_nb", "column", "date"]
 
 
 class NourrissageHumideSerializer(serializers.ModelSerializer):
     class Meta:
         model = NourrissageHumide
         fields = [
+            "id",
             "recolte_nb",
             "column",
             "date",
@@ -43,6 +44,7 @@ class NourrissageSonSerializer(serializers.ModelSerializer):
     class Meta:
         model = NourrissageSon
         fields = [
+            "id",
             "recolte_nb",
             "column",
             "date",
@@ -55,13 +57,13 @@ class NourrissageSonSerializer(serializers.ModelSerializer):
 class TamisageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tamisage
-        fields = ["recolte_nb", "column", "date", "sieved_quantity"]
+        fields = ["id", "recolte_nb", "column", "date", "sieved_quantity"]
 
 
 class RecolteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recolte
-        fields = ["recolte_nb", "column", "date", "harvested_quantity"]
+        fields = ["id", "recolte_nb", "column", "date", "harvested_quantity"]
 
 
 class ActionPolymorphicSerializer(PolymorphicSerializer):
@@ -92,4 +94,4 @@ class HarvestSerializer(serializers.HyperlinkedModelSerializer):
 class HistoricBreedingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ["recolte_nb", "column", "date", "polymorphic_ctype"]
+        fields = ["id", "recolte_nb", "column", "date", "polymorphic_ctype"]

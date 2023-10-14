@@ -3,6 +3,7 @@ from polymorphic.models import PolymorphicModel
 
 
 class Action(PolymorphicModel):
+    id = models.AutoField(primary_key=True)
     recolte_nb = models.CharField(max_length=6, default=None)
     column = models.CharField(max_length=2)
     date = models.DateTimeField()
