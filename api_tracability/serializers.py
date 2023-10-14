@@ -1,4 +1,11 @@
-from api_tracability.models import Action, MiseEnCulture, NourrisageHumide, NourrisageSon, Tamisage, Recolte
+from api_tracability.models import (
+    Action,
+    MiseEnCulture,
+    NourrissageHumide,
+    NourrissageSon,
+    Tamisage,
+    Recolte,
+)
 from rest_framework import serializers
 from rest_polymorphic.serializers import PolymorphicSerializer
 
@@ -6,48 +13,64 @@ from rest_polymorphic.serializers import PolymorphicSerializer
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ['polymorphic_ctype', 'recolte_nb', "column", "date"]
+        fields = ["polymorphic_ctype", "recolte_nb", "column", "date"]
 
 
 class MiseEnCultureSerializer(serializers.ModelSerializer):
     class Meta:
         model = MiseEnCulture
-        fields = ['recolte_nb', "column", "date"]
+        fields = ["recolte_nb", "column", "date"]
 
 
-class NourrisageHumideSerializer(serializers.ModelSerializer):
+class NourrissageHumideSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NourrisageHumide
-        fields = ['recolte_nb', "column", "date", "given_quantity", 'given_quantity_bac', "marc_arrival_date",
-                  "anomaly", "anomaly_comment", "is_imw100_weighted", "imw100_weight"]
+        model = NourrissageHumide
+        fields = [
+            "recolte_nb",
+            "column",
+            "date",
+            "given_quantity",
+            "given_quantity_bac",
+            "marc_arrival_date",
+            "anomaly",
+            "anomaly_comment",
+            "is_imw100_weighted",
+            "imw100_weight",
+        ]
 
 
-class NourrisageSonSerializer(serializers.ModelSerializer):
+class NourrissageSonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NourrisageSon
-        fields = ['recolte_nb', "column", "date",
-                  "given_quantity", 'given_quantity_bac', "son_arrival_date"]
+        model = NourrissageSon
+        fields = [
+            "recolte_nb",
+            "column",
+            "date",
+            "given_quantity",
+            "given_quantity_bac",
+            "son_arrival_date",
+        ]
 
 
 class TamisageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tamisage
-        fields = ['recolte_nb', "column", "date", "sieved_quantity"]
+        fields = ["recolte_nb", "column", "date", "sieved_quantity"]
 
 
 class RecolteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recolte
-        fields = ['recolte_nb', "column", "date", "harvested_quantity"]
+        fields = ["recolte_nb", "column", "date", "harvested_quantity"]
 
 
 class ActionPolymorphicSerializer(PolymorphicSerializer):
     model_serializer_mapping = {
         MiseEnCulture: MiseEnCultureSerializer,
-        NourrisageHumide: NourrisageHumideSerializer,
-        NourrisageSon: NourrisageSonSerializer,
+        NourrissageHumide: NourrissageHumideSerializer,
+        NourrissageSon: NourrissageSonSerializer,
         Tamisage: TamisageSerializer,
-        Recolte: RecolteSerializer
+        Recolte: RecolteSerializer,
     }
 
     # def to_resource_type(self, model_or_instance):
@@ -69,4 +92,4 @@ class HarvestSerializer(serializers.HyperlinkedModelSerializer):
 class HistoricBreedingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Action
-        fields = ["recolte_nb", "column", 'date', 'polymorphic_ctype']
+        fields = ["recolte_nb", "column", "date", "polymorphic_ctype"]

@@ -14,7 +14,7 @@ class MiseEnCulture(Action):
     pass
 
 
-class NourrisageHumide(Action):
+class NourrissageHumide(Action):
     given_quantity = models.IntegerField()
     given_quantity_bac = models.IntegerField()
     marc_arrival_date = models.DateTimeField()
@@ -24,7 +24,7 @@ class NourrisageHumide(Action):
     imw100_weight = models.IntegerField(blank=True, null=True)
 
 
-class NourrisageSon(Action):
+class NourrissageSon(Action):
     given_quantity = models.IntegerField()
     given_quantity_bac = models.IntegerField()
     son_arrival_date = models.DateTimeField()
