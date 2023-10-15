@@ -51,7 +51,7 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
     def generate_recolte_nb(self, column, date):
         latest_action = Action.objects.filter(column=column).order_by("-date").first()
         if latest_action is None or latest_action.polymorphic_ctype == 14:
-            date = datetime.strptime(date, "%Y-%m-%d")
+            date = datetime.fromisoformat(date)
             return column + date_format(date, "md")
         return latest_action.recolte_nb
 
