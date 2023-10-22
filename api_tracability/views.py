@@ -1,4 +1,5 @@
 from django.utils.formats import date_format
+from polymorphic.base import PolymorphicQuerySet
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from api_tracability.serializers import (
@@ -49,18 +50,20 @@ class ActionDetailViewSet(viewsets.ModelViewSet):
     ]
 
     def generate_recolte_nb(self, column, date):
-        latest_date = (
-            Action.objects.filter(column=column).order_by("-date").first().date
-        )
+        latest_action = Action.objects.filter(column=column).order_by("-date").first()
+        if latest_action is None:
+            return column + date_format(datetime.fromisoformat(date), "md")
+        latest_date = latest_action.date
         latest_actions = Action.objects.filter(column=column, date=latest_date)
-        print(latest_actions)
         # We need to proceed this way as a recolte can be the same day as anther action.
         recolte_in_latest_actions = latest_actions.filter(polymorphic_ctype=14)
         # IF in the latest actions, there is a 'recolte' action we generate a new recolte-nb a new one.
-        if recolte_in_latest_actions is not []:
+        print(recolte_in_latest_actions == Action.objects.none())
+
+        if recolte_in_latest_actions:
             date = datetime.fromisoformat(date)
             return column + date_format(date, "md")
-        return latest_actions.first().recolte_nb
+        return latest_action.recolte_nb
 
     def create(self, request, *args, **kwargs):
         # If lastest action is a 'recolte' we create a new one.
